@@ -33,15 +33,28 @@
                     android:hint="Filtrar por"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/search_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.65"
-                android:maxWidth="320dp"
-                android:text="Pesquisar"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/search_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="320dp"
+                    android:text="Pesquisar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                <ProgressBar
+                    android:id="@+id/search_progress_bar"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+
+
         </LinearLayout>
     </LinearLayout>
 

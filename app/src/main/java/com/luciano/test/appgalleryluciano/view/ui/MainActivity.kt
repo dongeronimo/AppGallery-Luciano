@@ -2,6 +2,7 @@ package com.luciano.test.appgalleryluciano.view.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,10 +19,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setObservers()
         setCallbacks()
 
     }
-
+    private fun setObservers(){
+        viewModel.images.observe(this) { currentList ->
+            //TODO: Atualizar a lista na tela
+        }
+    }
     private fun setCallbacks() {
         binding.searchButton.setOnClickListener {
             binding.searchInput.text?.let {param->
@@ -37,9 +43,11 @@ class MainActivity : AppCompatActivity() {
     private fun doSearchAsync(value:String){
         lifecycleScope.launch {
             with(binding){
-                searchButton.isEnabled = false
+                searchProgressBar.visibility = View.VISIBLE
+                searchButton.visibility = View.GONE
                 viewModel.doSearch(value)
-                searchButton.isEnabled = true
+                searchProgressBar.visibility = View.GONE
+                searchButton.visibility = View.VISIBLE
             }
         }
     }
