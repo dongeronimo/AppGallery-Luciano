@@ -20,10 +20,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.luciano.test.appgalleryluciano.databinding.ActivityMainBinding
+import com.luciano.test.appgalleryluciano.datasource.ImageSource
 import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 //dc784d23d3fecde
@@ -33,7 +35,10 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val viewModel:MainActivityViewModel by viewModels()
     lateinit var binding : ActivityMainBinding
-    private val imageAdapter = ImagesAdapter()
+    lateinit var imageAdapter : ImagesAdapter
+    @Inject
+    lateinit var imageSource:ImageSource
+
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted->
         if(isGranted){
             viewModel.updateStorePermission(true)
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        imageAdapter = ImagesAdapter(imageSource)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setRecyclerView()
@@ -70,8 +76,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun checkIfIAlredyPermission() = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private fun setObservers(){
         viewModel.images.observe(this) { currentList ->
             imageAdapter.submitList(currentList)
