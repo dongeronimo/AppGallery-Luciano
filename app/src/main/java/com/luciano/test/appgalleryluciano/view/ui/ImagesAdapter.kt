@@ -24,4 +24,8 @@ class ImagesAdapter(val imageSource: ImageSource): ListAdapter<ImgurImage, Imgur
         holder.bind(getItem(position), imageSource)
     }
 
+    override fun onViewRecycled(holder: ImgurImageViewHolder) {
+        super.onViewRecycled(holder)
+        holder.cleanup()
+    }
 }
