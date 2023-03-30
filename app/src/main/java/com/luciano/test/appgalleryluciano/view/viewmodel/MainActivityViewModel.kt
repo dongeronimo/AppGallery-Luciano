@@ -15,10 +15,20 @@ import javax.inject.Named
 class MainActivityViewModel @Inject constructor(
     @Named("real") private val imageSearchService: ImageSearchService
 ) : ViewModel() {
+    private val _error = MutableLiveData<String>("")
+    val error: LiveData<String> = _error
+
     private val _images = MutableLiveData<List<ImgurImage>>(emptyList())
     val images: LiveData<List<ImgurImage>> = _images
     suspend fun doSearch(value: String) {
-        imageSearchService.search(value)
+        _error.postValue( "")
+        try {
+            val list = imageSearchService.search(value)
+            _images.postValue(list)
+        }
+        catch(ex:Error) {
+            _error.postValue(ex.message?: kotlin.run { "" })
+        }
     }
 
 }
