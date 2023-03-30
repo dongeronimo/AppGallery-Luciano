@@ -57,6 +57,8 @@ dependencies {
     kaptTest 'com.google.dagger:hilt-android-compiler:2.44'
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
+    //okhttp
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
 
 }
 

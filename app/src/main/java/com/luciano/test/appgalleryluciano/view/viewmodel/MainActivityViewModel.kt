@@ -13,12 +13,12 @@ import javax.inject.Named
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    @Named("mockado") imageSearchService: ImageSearchService
+    @Named("real") private val imageSearchService: ImageSearchService
 ) : ViewModel() {
     private val _images = MutableLiveData<List<ImgurImage>>(emptyList())
     val images: LiveData<List<ImgurImage>> = _images
     suspend fun doSearch(value: String) {
-        delay(1000)
+        imageSearchService.search(value)
     }
 
 }

@@ -6,26 +6,33 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luciano.test.appgalleryluciano.databinding.ActivityMainBinding
 import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
+//dc784d23d3fecde
+//ff7773f65b740649d3bcbd88e71c958f0433a036
+//https://imgur.com/account/settings/apps
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel:MainActivityViewModel by viewModels()
     lateinit var binding : ActivityMainBinding
+    private val imageAdapter = ImagesAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setRecyclerView()
         setObservers()
         setCallbacks()
-
     }
     private fun setObservers(){
         viewModel.images.observe(this) { currentList ->
-            //TODO: Atualizar a lista na tela
+            imageAdapter.submitList(currentList)
         }
     }
     private fun setCallbacks() {
@@ -41,14 +48,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doSearchAsync(value:String){
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             with(binding){
-                searchProgressBar.visibility = View.VISIBLE
-                searchButton.visibility = View.GONE
+                runOnUiThread { switchSearchButtonToProgress()  }
                 viewModel.doSearch(value)
-                searchProgressBar.visibility = View.GONE
-                searchButton.visibility = View.VISIBLE
+                runOnUiThread { switchProgressToSearchButton() }
             }
+        }
+    }
+    private fun switchSearchButtonToProgress(){
+        with(binding) {
+            searchProgressBar.visibility = View.VISIBLE
+            searchButton.visibility = View.GONE
+        }
+    }
+    private fun switchProgressToSearchButton(){
+        with(binding){
+            searchProgressBar.visibility = View.GONE
+            searchButton.visibility = View.VISIBLE
+        }
+    }
+    private fun setRecyclerView(){
+        binding.imageList.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = imageAdapter
         }
     }
 }
