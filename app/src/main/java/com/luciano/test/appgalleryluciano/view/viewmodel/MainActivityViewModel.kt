@@ -15,6 +15,8 @@ import javax.inject.Named
 class MainActivityViewModel @Inject constructor(
     @Named("real") private val imageSearchService: ImageSearchService
 ) : ViewModel() {
+    private val _storePermisison = MutableLiveData(false)
+    val storePermission: LiveData<Boolean> = _storePermisison
     private val _error = MutableLiveData<String>("")
     val error: LiveData<String> = _error
 
@@ -29,6 +31,10 @@ class MainActivityViewModel @Inject constructor(
         catch(ex:Error) {
             _error.postValue(ex.message?: kotlin.run { "" })
         }
+    }
+
+    fun updateStorePermission(b: Boolean) {
+        _storePermisison.postValue(b)
     }
 
 }
