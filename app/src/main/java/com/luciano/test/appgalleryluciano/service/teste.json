@@ -1,3 +1,13 @@
+//Duvidas:
+//Não existe um campo "exibitionName". Esse campo equivale ao data.title
+//ou ao data.images.title? Ou é outro campo?
+
+//Não há um campo que dê o numero de followers de uma image, somente de tags. O numero de followers
+//das tags da imagem são os followers da imagem? E se houver mais de uma tag e essas tags tiverem
+//numeros de followers diferentes? Ou uso favorite count no lugar de followers? Se usar favoriteCount
+//no lugar dos followers das tags uso o do album ou da imagem?
+
+
 {
   "data": [
     {

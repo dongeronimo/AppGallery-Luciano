@@ -59,7 +59,10 @@ dependencies {
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
     //okhttp
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
-
+    //jackson
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
 }
 
 // Allow references to generated code
