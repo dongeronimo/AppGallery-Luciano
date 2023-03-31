@@ -20,7 +20,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.luciano.test.appgalleryluciano.databinding.ActivityMainBinding
-import com.luciano.test.appgalleryluciano.datasource.ImageSource
 import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -36,8 +35,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel:MainActivityViewModel by viewModels()
     lateinit var binding : ActivityMainBinding
     lateinit var imageAdapter : ImagesAdapter
-    @Inject
-    lateinit var imageSource:ImageSource
+
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted->
         if(isGranted){
@@ -48,8 +46,16 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        imageAdapter = ImagesAdapter(imageSource)
+        imageAdapter = ImagesAdapter{img->
+            with(binding) {
+                imageDetails.visibility = View.VISIBLE
+                exibitionName.text = img.exibitionName
+                followers.text = "${img.followers}"
+                description.text = img.description
+            }
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.imageDetails.visibility = View.GONE
         setContentView(binding.root)
         setRecyclerView()
         setObservers()
@@ -91,6 +97,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.closeImageDetails.setOnClickListener {
+            binding.imageDetails.visibility = View.GONE
+        }
+
     }
 
     private fun doSearchAsync(value:String){
