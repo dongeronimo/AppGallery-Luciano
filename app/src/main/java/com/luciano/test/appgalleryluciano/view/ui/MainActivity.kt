@@ -26,9 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-//dc784d23d3fecde
-//ff7773f65b740649d3bcbd88e71c958f0433a036
 //https://imgur.com/account/settings/apps
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
