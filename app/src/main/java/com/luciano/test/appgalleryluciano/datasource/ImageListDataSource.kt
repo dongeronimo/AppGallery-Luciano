@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.luciano.test.appgalleryluciano.common.OkHttpClientProvider
 import com.luciano.test.appgalleryluciano.entity.ImgurImage
 import okhttp3.Request
+import java.io.IOException
 import javax.inject.Inject
 
 class ImageListDataSource @Inject constructor(
@@ -47,7 +48,7 @@ class ImageListDataSource @Inject constructor(
             }
             return images
         }
-        catch (err:Error){
+        catch (err:IOException){
             Log.e("Geronimo", "error while doing request: ${err.message?:"unknown err"}")
             throw err
         }

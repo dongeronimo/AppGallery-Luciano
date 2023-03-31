@@ -80,6 +80,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.images.observe(this) { currentList ->
             imageAdapter.submitList(currentList)
         }
+        viewModel.error.observe(this) {err->
+            if(err.isNotEmpty()){
+                Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
+                viewModel.clearError()
+            }
+        }
     }
     private fun setCallbacks() {
         binding.searchButton.setOnClickListener {
