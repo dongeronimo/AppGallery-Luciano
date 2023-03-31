@@ -8,7 +8,9 @@ import com.luciano.test.appgalleryluciano.service.ImageSearchService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
+
 import java.io.IOException
+
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -29,14 +31,17 @@ class MainActivityViewModel @Inject constructor(
             val list = imageSearchService.search(value)
             _images.postValue(list)
         }
+
         catch(ex:IOException) {
             _error.postValue("Erro de conexão - verifique sua internet")
+
         }
     }
 
     fun updateStorePermission(b: Boolean) {
         _storePermisison.postValue(b)
     }
+
 
     fun clearError() {
         _error.postValue("")
