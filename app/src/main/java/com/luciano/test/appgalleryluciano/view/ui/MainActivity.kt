@@ -1,6 +1,17 @@
 package com.luciano.test.appgalleryluciano.view.ui
 
 import android.Manifest
+
+import android.R
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.TextView
+
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -8,6 +19,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -78,14 +90,25 @@ class MainActivity : AppCompatActivity() {
         viewModel.images.observe(this) { currentList ->
             imageAdapter.submitList(currentList)
         }
+
+        viewModel.error.observe(this) {err->
+            if(err.isNotEmpty()){
+                Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
+                viewModel.clearError()
+            }
+        }
     }
+
     private fun setCallbacks() {
         binding.searchButton.setOnClickListener {
-            submitSearch()
+              submitSearch()
+            }
+
         }
         binding.closeImageDetails.setOnClickListener {
             binding.imageDetails.visibility = View.GONE
         }
+
         binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 submitSearch()
@@ -94,6 +117,7 @@ class MainActivity : AppCompatActivity() {
             false
         }
     }
+
     private fun submitSearch(){
         binding.searchInput.text?.let {param->
             if(param.trim().isEmpty()){
@@ -104,6 +128,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun closeKeyboard() {
         // this will give us the view
         // which is currently focus
@@ -126,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                 )
         }
     }
+
     private fun doSearchAsync(value:String){
         lifecycleScope.launch(Dispatchers.IO) {
             with(binding){
