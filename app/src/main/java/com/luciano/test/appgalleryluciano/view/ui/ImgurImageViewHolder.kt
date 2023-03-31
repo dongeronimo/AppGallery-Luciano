@@ -1,5 +1,6 @@
 package com.luciano.test.appgalleryluciano.view.ui
 
+
 import android.app.Activity
 import android.media.ImageReader
 import android.util.Log
@@ -44,5 +45,5 @@ class ImgurImageViewHolder(private val v: View,
         disposable.dispose()
         coroutineContext.cancel()
         job.cancel()
-    }
+
 }

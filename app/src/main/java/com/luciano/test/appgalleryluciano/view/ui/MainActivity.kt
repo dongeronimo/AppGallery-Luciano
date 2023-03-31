@@ -24,15 +24,12 @@ import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-//https://imgur.com/account/settings/apps
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel:MainActivityViewModel by viewModels()
     lateinit var binding : ActivityMainBinding
     lateinit var imageAdapter : ImagesAdapter
-
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted->
         if(isGranted){
@@ -97,7 +94,6 @@ class MainActivity : AppCompatActivity() {
         binding.closeImageDetails.setOnClickListener {
             binding.imageDetails.visibility = View.GONE
         }
-
     }
 
     private fun doSearchAsync(value:String){
