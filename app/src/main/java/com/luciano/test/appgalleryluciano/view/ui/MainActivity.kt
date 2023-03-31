@@ -29,7 +29,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     private val viewModel:MainActivityViewModel by viewModels()
     lateinit var binding : ActivityMainBinding
-    private val imageAdapter = ImagesAdapter()
+    lateinit var imageAdapter : ImagesAdapter
+
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted->
         if(isGranted){
             viewModel.updateStorePermission(true)
@@ -39,7 +40,16 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        imageAdapter = ImagesAdapter{img->
+            with(binding) {
+                imageDetails.visibility = View.VISIBLE
+                exibitionName.text = img.exibitionName
+                followers.text = "${img.followers}"
+                description.text = img.description
+            }
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.imageDetails.visibility = View.GONE
         setContentView(binding.root)
         setRecyclerView()
         setObservers()
@@ -66,8 +76,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun checkIfIAlredyPermission() = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private fun setObservers(){
         viewModel.images.observe(this) { currentList ->
             imageAdapter.submitList(currentList)
@@ -82,6 +90,9 @@ class MainActivity : AppCompatActivity() {
                     doSearchAsync(param.toString())
                 }
             }
+        }
+        binding.closeImageDetails.setOnClickListener {
+            binding.imageDetails.visibility = View.GONE
         }
     }
 
