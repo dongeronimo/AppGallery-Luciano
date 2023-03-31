@@ -13,7 +13,6 @@ class OkHttpClientProvider @Inject constructor(
 
     fun getClient():OkHttpClient {
 
-
         return client
     }
 }

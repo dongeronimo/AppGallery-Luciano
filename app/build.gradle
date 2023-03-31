@@ -65,9 +65,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
     //Lib de dl de imagem
     implementation "io.coil-kt:coil:2.3.0"
+
     //easypermissions
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
+
 }
 
 // Allow references to generated code

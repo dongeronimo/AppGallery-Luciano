@@ -2,7 +2,6 @@ package com.luciano.test.appgalleryluciano.view.ui
 
 import android.Manifest
 
-
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,6 +10,17 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+
+
+import android.R
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.TextView
 
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,9 +36,11 @@ import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.function.Consumer
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -63,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
         //A lib de dl de imagens funciona mesmo sem a permissão de escrita,
 //        requiresPermission()
     }
@@ -96,6 +109,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.images.observe(this) { currentList ->
             imageAdapter.submitList(currentList)
         }
+
 
         viewModel.error.observe(this) {err->
             if(err.isNotEmpty()){
@@ -156,6 +170,7 @@ class MainActivity : AppCompatActivity() {
                     view.windowToken, 0
                 )
         }
+
     }
 
     private fun doSearchAsync(value:String){

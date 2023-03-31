@@ -2,7 +2,6 @@ package com.luciano.test.appgalleryluciano.common.di
 
 
 import com.luciano.test.appgalleryluciano.common.NoConnectionInterceptor
-
 import com.luciano.test.appgalleryluciano.common.OkHttpClientProvider
 import dagger.Module
 import dagger.Provides

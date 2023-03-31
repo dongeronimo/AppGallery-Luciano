@@ -27,7 +27,9 @@ class MainActivityViewModel @Inject constructor(
     val images: LiveData<List<ImgurImage>> = _images
     suspend fun doSearch(value: String) {
         _error.postValue( "")
+
         _images.postValue(emptyList())
+
         try {
             val list = imageSearchService.search(value)
             _images.postValue(list)
@@ -42,6 +44,7 @@ class MainActivityViewModel @Inject constructor(
     fun updateStorePermission(b: Boolean) {
         _storePermisison.postValue(b)
     }
+
 
 
     fun clearError() {
