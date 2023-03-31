@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -83,16 +84,26 @@ class MainActivity : AppCompatActivity() {
     }
     private fun setCallbacks() {
         binding.searchButton.setOnClickListener {
-            binding.searchInput.text?.let {param->
-                if(param.trim().isEmpty()){
-                    Toast.makeText(this, "Informe o que deseja buscar", Toast.LENGTH_LONG).show()
-                }else{
-                    doSearchAsync(param.toString())
-                }
-            }
+            submitSearch()
         }
         binding.closeImageDetails.setOnClickListener {
             binding.imageDetails.visibility = View.GONE
+        }
+        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                submitSearch()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+    }
+    private fun submitSearch(){
+        binding.searchInput.text?.let {param->
+            if(param.trim().isEmpty()){
+                Toast.makeText(this, "Informe o que deseja buscar", Toast.LENGTH_LONG).show()
+            }else{
+                doSearchAsync(param.toString())
+            }
         }
     }
 
