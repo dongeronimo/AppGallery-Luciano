@@ -45,5 +45,5 @@ class ImgurImageViewHolder(private val v: View,
         disposable.dispose()
         coroutineContext.cancel()
         job.cancel()
-
+    }
 }
