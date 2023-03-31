@@ -2,19 +2,11 @@ package com.luciano.test.appgalleryluciano.view.ui
 
 import android.Manifest
 
-import android.R
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.TextView
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CancellationSignal
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -34,6 +26,9 @@ import com.luciano.test.appgalleryluciano.view.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
+import java.util.function.Consumer
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -68,22 +63,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        when{
-            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED -> {
-                Log.d("Geronimo", "ja tem a permissao")
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)->{
-                Snackbar.make(findViewById(android.R.id.content),
-                    "We need write permission to store the photos in your disk",
-                    Snackbar.LENGTH_INDEFINITE).setAction("OK") {
-                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                }.show()
-            }
-            else->{
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
+        //A lib de dl de imagens funciona mesmo sem a permissão de escrita,
+//        requiresPermission()
+    }
+
+    @AfterPermissionGranted(123)
+    private fun requiresPermission(){
+        if(EasyPermissions.hasPermissions(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            viewModel.updateStorePermission(true)
+        }else{
+            EasyPermissions.requestPermissions(this,
+                "É preciso permissão de gravar porque a app grava fotos",
+            122,Manifest.permission.WRITE_EXTERNAL_STORAGE )
         }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //int requestCode,
+        //                                                  @NonNull String[] permissions,
+        //                                                  @NonNull int[] grantResults,
+        //                                                  @NonNull Object... receivers)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     private fun setObservers(){
@@ -104,7 +110,7 @@ class MainActivity : AppCompatActivity() {
               submitSearch()
             }
 
-        }
+
         binding.closeImageDetails.setOnClickListener {
             binding.imageDetails.visibility = View.GONE
         }
