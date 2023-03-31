@@ -1,15 +1,13 @@
 package com.luciano.test.appgalleryluciano.view.ui
 
 import android.Manifest
-import android.R
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -83,19 +81,51 @@ class MainActivity : AppCompatActivity() {
     }
     private fun setCallbacks() {
         binding.searchButton.setOnClickListener {
-            binding.searchInput.text?.let {param->
-                if(param.trim().isEmpty()){
-                    Toast.makeText(this, "Informe o que deseja buscar", Toast.LENGTH_LONG).show()
-                }else{
-                    doSearchAsync(param.toString())
-                }
-            }
+            submitSearch()
         }
         binding.closeImageDetails.setOnClickListener {
             binding.imageDetails.visibility = View.GONE
         }
+        binding.searchInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                submitSearch()
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
+    private fun submitSearch(){
+        binding.searchInput.text?.let {param->
+            if(param.trim().isEmpty()){
+                Toast.makeText(this, "Informe o que deseja buscar", Toast.LENGTH_LONG).show()
+            }else{
+                closeKeyboard()
+                doSearchAsync(param.toString())
+            }
+        }
+    }
+    private fun closeKeyboard() {
+        // this will give us the view
+        // which is currently focus
+        // in this layout
+        val view = this.currentFocus
 
+        // if nothing is currently
+        // focus then this will protect
+        // the app from crash
+        if (view != null) {
+
+            // now assign the system
+            // service to InputMethodManager
+            val manager: InputMethodManager = getSystemService(
+                Context.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            manager
+                .hideSoftInputFromWindow(
+                    view.windowToken, 0
+                )
+        }
+    }
     private fun doSearchAsync(value:String){
         lifecycleScope.launch(Dispatchers.IO) {
             with(binding){
