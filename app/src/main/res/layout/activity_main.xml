@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:hint="Filtrar por"/>
+                    android:hint="@string/filtrar_por"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxWidth="320dp"
-                    android:text="Pesquisar"
+                    android:text="@string/pesquisar"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
                 <ProgressBar
                     android:id="@+id/search_progress_bar"
@@ -84,13 +84,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="X"
+            android:text="@string/x"
             android:textColor="@color/design_default_color_on_primary" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome de exibição:"
+            android:text="@string/nome_de_exibi_o"
             android:textSize="16sp" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Seguidores:"
+            android:text="@string/seguidores"
             android:textSize="16sp" />
 
         <TextView
@@ -116,13 +116,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            android:text="Descrição"
+            android:text="@string/descri_o"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
             android:text="zzzzz" />
     </LinearLayout>
 
