@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AppGallery - Luciano</string>
+
+    <string name="filtrar_por">Filtrar por</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="x">X</string>
+    <string name="nome_de_exibi_o">Nome de exibição:</string>
+    <string name="seguidores">Seguidores:</string>
+    <string name="descri_o">Descrição</string>
+
 </resources>

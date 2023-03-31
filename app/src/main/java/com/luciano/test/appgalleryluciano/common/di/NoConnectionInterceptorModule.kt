@@ -1,20 +1,18 @@
 package com.luciano.test.appgalleryluciano.common.di
 
-
+import android.content.Context
 import com.luciano.test.appgalleryluciano.common.NoConnectionInterceptor
-import com.luciano.test.appgalleryluciano.common.OkHttpClientProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object OkHttpClientProviderModule {
+object NoConnectionInterceptorModule {
     @Provides
-
-    fun provideReal(noConnectionInterceptor: NoConnectionInterceptor):
-            OkHttpClientProvider = OkHttpClientProvider(noConnectionInterceptor)
-
+    fun provide(@ApplicationContext appContext: Context):NoConnectionInterceptor {
+        return NoConnectionInterceptor(appContext)
+    }
 }
